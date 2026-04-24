@@ -418,7 +418,7 @@ footer {
     <h1>Багатогранники.<br><span>Призми. Піраміди.</span></h1>
     <p class="hero-desc">Повний урок із формулами, наочними схемами та типовими задачами НМТ. Розбираємо теорію — і одразу відпрацьовуємо на практиці.</p>
     <div class="hero-stats">
-      <div class="stat"><span class="stat-val">5</span><span class="stat-lbl">задач НМТ</span></div>
+      <div class="stat"><span class="stat-val">9</span><span class="stat-lbl">задач НМТ</span></div>
       <div class="stat"><span class="stat-val">12</span><span class="stat-lbl">формул</span></div>
       <div class="stat"><span class="stat-val">6</span><span class="stat-lbl">типових помилок</span></div>
     </div>
@@ -952,6 +952,106 @@ footer {
       </div>
     </div>
 
+    <!-- Task 6 -->
+    <div class="task-card fade-in" id="task-6">
+      <div class="task-header" onclick="toggleTask('task-6')">
+        <div class="task-badge">
+          <div class="task-num">№6</div>
+          <div class="diff-dots">
+            <span class="diff-dot filled"></span><span class="diff-dot filled"></span><span class="diff-dot"></span><span class="diff-dot"></span>
+          </div>
+        </div>
+        <div class="task-body-text">
+          <span class="task-level level-2">середня</span>
+          <div class="task-question">Основою прямої призми є ромб зі стороною 20. Периметр одного з діагональних перерізів призми дорівнює 58. Визначте об'єм призми, якщо її висота дорівнює 5.</div>
+        </div>
+        <div class="task-toggle">▶</div>
+      </div>
+      <div class="task-solution">
+        <div class="solution-title">Розв'язання</div>
+        <div class="solution-step"><span class="step-num">1</span><span class="step-text">Діагональний переріз — прямокутник із двох бічних ребер і діагоналі основи. Його периметр: \(P = 2d + 2h = 58\), де \(d\) — діагональ ромба, \(h = 5\). Звідси \(2d = 58 - 10 = 48\), тому \(d = 24\).</span></div>
+        <div class="solution-step"><span class="step-num">2</span><span class="step-text">Площа ромба через сторону і діагональ. Друга діагональ ромба: \(d_1 = 24\). З теореми Піфагора: \(\left(\dfrac{d_2}{2}\right)^2 = 20^2 - 12^2 = 400 - 144 = 256\), тому \(d_2 = 32\).</span></div>
+        <div class="solution-step"><span class="step-num">3</span><span class="step-text">Площа основи (ромба): \(S_{\text{осн}} = \dfrac{d_1 \cdot d_2}{2} = \dfrac{24 \cdot 32}{2} = 384\)</span></div>
+        <div class="solution-step"><span class="step-num">4</span><span class="step-text">Об'єм: \(V = S_{\text{осн}} \cdot h = 384 \cdot 5 = 1920\)</span></div>
+        <div class="answer-box"><span>Відповідь: </span>\(V = 1920\) од³</div>
+      </div>
+    </div>
+
+    <!-- Task 7 -->
+    <div class="task-card fade-in" id="task-7">
+      <div class="task-header" onclick="toggleTask('task-7')">
+        <div class="task-badge">
+          <div class="task-num">№7</div>
+          <div class="diff-dots">
+            <span class="diff-dot filled"></span><span class="diff-dot filled"></span><span class="diff-dot"></span><span class="diff-dot"></span>
+          </div>
+        </div>
+        <div class="task-body-text">
+          <span class="task-level level-2">середня</span>
+          <div class="task-question">Радіус кола, описаного навколо основи правильної чотирикутної піраміди, дорівнює \(\sqrt{2}\) см, а довжина апофеми 6 см. Обчисліть бічну поверхню піраміди.</div>
+        </div>
+        <div class="task-toggle">▶</div>
+      </div>
+      <div class="task-solution">
+        <div class="solution-title">Розв'язання</div>
+        <div class="solution-step"><span class="step-num">1</span><span class="step-text">Для квадратної основи: \(R = \dfrac{a\sqrt{2}}{2}\), тому \(a = \dfrac{2R}{\sqrt{2}} = \dfrac{2\sqrt{2}}{\sqrt{2}} = 2\) см — сторона основи.</span></div>
+        <div class="solution-step"><span class="step-num">2</span><span class="step-text">Периметр основи: \(P = 4 \cdot 2 = 8\) см</span></div>
+        <div class="solution-step"><span class="step-num">3</span><span class="step-text">Бічна поверхня: \(S_{\text{бік}} = \dfrac{1}{2} \cdot P \cdot a_{\text{апоф}} = \dfrac{1}{2} \cdot 8 \cdot 6 = 24\) см²</span></div>
+        <div class="answer-box"><span>Відповідь: </span>\(S_{\text{бік}} = 24\) см²</div>
+      </div>
+    </div>
+
+    <!-- Task 8 -->
+    <div class="task-card fade-in" id="task-8">
+      <div class="task-header" onclick="toggleTask('task-8')">
+        <div class="task-badge">
+          <div class="task-num">№8</div>
+          <div class="diff-dots">
+            <span class="diff-dot filled"></span><span class="diff-dot filled"></span><span class="diff-dot filled"></span><span class="diff-dot"></span>
+          </div>
+        </div>
+        <div class="task-body-text">
+          <span class="task-level level-3">вище середнього</span>
+          <div class="task-question">В основі правильної трикутної піраміди лежить рівносторонній трикутник зі стороною \(4\sqrt{3}\). Кут між бічним ребром і площиною основи дорівнює 60°. Знайдіть об'єм піраміди.</div>
+        </div>
+        <div class="task-toggle">▶</div>
+      </div>
+      <div class="task-solution">
+        <div class="solution-title">Розв'язання</div>
+        <div class="solution-step"><span class="step-num">1</span><span class="step-text">Радіус описаного кола основи: \(R = \dfrac{4\sqrt{3}}{\sqrt{3}} = 4\) см</span></div>
+        <div class="solution-step"><span class="step-num">2</span><span class="step-text">Кут між бічним ребром \(\ell\) і основою — це кут між \(\ell\) і його проекцією на основу (відрізок \(R\)). Тому \(\tan 60° = \dfrac{h}{R}\), звідси \(h = R \cdot \tan 60° = 4\sqrt{3}\) см</span></div>
+        <div class="solution-step"><span class="step-num">3</span><span class="step-text">Площа основи: \(S_{\text{осн}} = \dfrac{\sqrt{3}}{4} \cdot (4\sqrt{3})^2 = \dfrac{\sqrt{3}}{4} \cdot 48 = 12\sqrt{3}\) см²</span></div>
+        <div class="solution-step"><span class="step-num">4</span><span class="step-text">Об'єм: \(V = \dfrac{1}{3} \cdot 12\sqrt{3} \cdot 4\sqrt{3} = \dfrac{1}{3} \cdot 144 = 48\) см³</span></div>
+        <div class="answer-box"><span>Відповідь: </span>\(V = 48\) см³</div>
+      </div>
+    </div>
+
+    <!-- Task 9 -->
+    <div class="task-card fade-in" id="task-9">
+      <div class="task-header" onclick="toggleTask('task-9')">
+        <div class="task-badge">
+          <div class="task-num">№9</div>
+          <div class="diff-dots">
+            <span class="diff-dot filled"></span><span class="diff-dot filled"></span><span class="diff-dot filled"></span><span class="diff-dot filled"></span>
+          </div>
+        </div>
+        <div class="task-body-text">
+          <span class="task-level level-4">складна</span>
+          <div class="task-question">Задано правильну чотирикутну піраміду і циліндр з площею основи \(81\pi\) см². Радіус кола, описаного навколо основи піраміди, дорівнює радіусу основи циліндра. Бічне ребро піраміди утворює з площиною її основи кут 45°. Обчисліть об'єм піраміди (у см³).</div>
+        </div>
+        <div class="task-toggle">▶</div>
+      </div>
+      <div class="task-solution">
+        <div class="solution-title">Розв'язання</div>
+        <div class="solution-step"><span class="step-num">1</span><span class="step-text">З площі основи циліндра: \(\pi R^2 = 81\pi\), тому \(R = 9\) см — радіус описаного кола основи піраміди.</span></div>
+        <div class="solution-step"><span class="step-num">2</span><span class="step-text">Для квадрата: \(R = \dfrac{a\sqrt{2}}{2}\), тому \(a = \dfrac{2 \cdot 9}{\sqrt{2}} = 9\sqrt{2}\) см — сторона основи.</span></div>
+        <div class="solution-step"><span class="step-num">3</span><span class="step-text">Кут між бічним ребром і основою 45°: проекція бічного ребра на основу = \(R = 9\). Тому \(h = R \cdot \tan 45° = 9 \cdot 1 = 9\) см.</span></div>
+        <div class="solution-step"><span class="step-num">4</span><span class="step-text">Площа основи: \(S_{\text{осн}} = a^2 = (9\sqrt{2})^2 = 162\) см²</span></div>
+        <div class="solution-step"><span class="step-num">5</span><span class="step-text">Об'єм: \(V = \dfrac{1}{3} \cdot 162 \cdot 9 = 486\) см³</span></div>
+        <div class="answer-box"><span>Відповідь: </span>\(V = 486\) см³</div>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -1096,7 +1196,7 @@ function toggleTask(id) {
   if (window.MathJax) MathJax.typesetPromise([card]);
 }
 function updateProgress() {
-  const total = 5;
+  const total = 9;
   document.getElementById('task-progress').style.width = (openedTasks.size / total * 100) + '%';
 }
 
