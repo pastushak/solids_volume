@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Стереометрія на НМТ</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Golos+Text:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-chtml.min.js"></script>
+<style>
+:root {
+  --bg: #0e0f14;
+  --bg2: #151720;
+  --bg3: #1c1f2e;
+  --card: #1a1d2b;
+  --card2: #20243a;
+  --accent: #4f8ef7;
+  --accent2: #f7c14f;
+  --accent3: #5fe3a1;
+  --accent4: #f76f6f;
+  --border: rgba(255,255,255,0.08);
+  --border2: rgba(255,255,255,0.15);
+  --text: #e8eaf2;
+  --text2: #9094b0;
+  --text3: #6367a0;
+  --radius: 14px;
+  --radius-sm: 8px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Golos Text', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ── NAV ── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(14,15,20,0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 0.5px solid var(--border2);
+  padding: 0 24px;
+  display: flex; align-items: center; gap: 0;
+}
+.nav-logo {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 13px; font-weight: 700;
+  color: var(--accent);
+  padding: 16px 20px 16px 0;
+  letter-spacing: 0.03em;
+  flex-shrink: 0;
+  border-right: 0.5px solid var(--border);
+  margin-right: 16px;
+}
+.nav-chapters {
+  display: flex; gap: 2px; flex: 1;
+  overflow-x: auto;
+}
+.nav-chapter {
+  padding: 14px 16px;
+  font-size: 13px; font-weight: 500;
+  color: var(--text2);
+  cursor: pointer;
+  border-radius: 6px;
+  white-space: nowrap;
+  transition: color .2s, background .2s;
+  display: flex; align-items: center; gap: 6px;
+}
+.nav-chapter:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+.nav-chapter.active { color: var(--accent); }
+.nav-chapter .ch-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--text3); flex-shrink: 0;
+  transition: background .2s;
+}
+.nav-chapter.active .ch-dot { background: var(--accent); }
+.nav-chapter.soon { opacity: .4; pointer-events: none; }
+.soon-badge {
+  font-size: 10px; padding: 1px 5px; border-radius: 4px;
+  background: rgba(247,193,79,0.12); color: var(--accent2);
+  font-weight: 600;
+}
+
+/* ── HERO ── */
+.hero {
+  padding: 60px 24px 40px;
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 340px; gap: 40px; align-items: center;
+}
+.hero-label {
+  font-size: 11px; font-weight: 600; letter-spacing: .12em;
+  color: var(--accent3); text-transform: uppercase; margin-bottom: 12px;
+}
+.hero h1 {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 38px; font-weight: 700; line-height: 1.2;
+  color: var(--text); margin-bottom: 16px;
+}
+.hero h1 span { color: var(--accent); }
+.hero-desc { color: var(--text2); font-size: 15px; line-height: 1.7; margin-bottom: 28px; }
+.hero-stats {
+  display: flex; gap: 24px;
+}
+.stat { display: flex; flex-direction: column; }
+.stat-val { font-family: 'Unbounded', sans-serif; font-size: 22px; font-weight: 700; color: var(--text); }
+.stat-lbl { font-size: 12px; color: var(--text3); }
+.hero-visual {
+  position: relative; aspect-ratio: 1;
+}
+.hero-svg { width: 100%; }
+
+/* ── TABS ── */
+.tabs-bar {
+  max-width: 1100px; margin: 0 auto; padding: 0 24px 0;
+  display: flex; gap: 6px; border-bottom: 0.5px solid var(--border);
+}
+.tab-btn {
+  padding: 12px 18px; font-size: 14px; font-weight: 500;
+  color: var(--text2); cursor: pointer; border-bottom: 2px solid transparent;
+  margin-bottom: -0.5px; transition: color .2s, border-color .2s;
+  white-space: nowrap;
+}
+.tab-btn:hover { color: var(--text); }
+.tab-btn.active { color: var(--accent); border-color: var(--accent); }
+
+/* ── MAIN ── */
+main { max-width: 1100px; margin: 0 auto; padding: 32px 24px 80px; }
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ── SECTION HEADER ── */
+.section-hd {
+  margin-bottom: 24px;
+}
+.section-hd h2 {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 22px; font-weight: 600; color: var(--text); margin-bottom: 6px;
+}
+.section-hd p { color: var(--text2); font-size: 14px; }
+
+/* ── THEORY GRID ── */
+.theory-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px;
+}
+.theory-block {
+  background: var(--card);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 22px;
+  position: relative; overflow: hidden;
+}
+.theory-block::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+}
+.theory-block.prism::before { background: linear-gradient(90deg, var(--accent), transparent); }
+.theory-block.pyramid::before { background: linear-gradient(90deg, var(--accent2), transparent); }
+.theory-block.extra::before { background: linear-gradient(90deg, var(--accent3), transparent); }
+.theory-block.danger::before { background: linear-gradient(90deg, var(--accent4), transparent); }
+.theory-block h3 {
+  font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--text2); margin-bottom: 14px;
+  display: flex; align-items: center; gap: 8px;
+}
+.theory-block h3 .icon {
+  width: 24px; height: 24px; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; flex-shrink: 0;
+}
+.icon-blue { background: rgba(79,142,247,0.15); color: var(--accent); }
+.icon-yellow { background: rgba(247,193,79,0.15); color: var(--accent2); }
+.icon-green { background: rgba(95,227,161,0.12); color: var(--accent3); }
+.icon-red { background: rgba(247,111,111,0.12); color: var(--accent4); }
+
+.formula-row {
+  display: flex; flex-direction: column; gap: 10px;
+}
+.formula-item {
+  background: var(--bg3);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+}
+.formula-item .f-label {
+  font-size: 11px; color: var(--text3); margin-bottom: 4px; font-weight: 500;
+}
+.formula-item .f-math {
+  font-size: 15px; color: var(--text);
+}
+.formula-item .f-note {
+  font-size: 11px; color: var(--text3); margin-top: 4px; line-height: 1.5;
+}
+
+/* ── RELATIONS TABLE ── */
+.rel-table {
+  width: 100%; border-collapse: collapse;
+  background: var(--card); border-radius: var(--radius);
+  overflow: hidden; margin-bottom: 32px;
+}
+.rel-table thead th {
+  background: var(--bg3); padding: 12px 16px;
+  font-size: 12px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase;
+  color: var(--text2); text-align: left;
+  border-bottom: 0.5px solid var(--border2);
+}
+.rel-table tbody td {
+  padding: 12px 16px; font-size: 13px; color: var(--text);
+  border-bottom: 0.5px solid var(--border);
+  vertical-align: middle;
+}
+.rel-table tbody tr:last-child td { border-bottom: none; }
+.rel-table tbody tr:hover td { background: rgba(255,255,255,0.02); }
+.rel-table td:nth-child(2) { font-family: monospace; font-size: 13px; color: var(--accent3); }
+.rel-table td:nth-child(3) { color: var(--text2); font-size: 12px; }
+
+/* ── ERRORS ── */
+.errors-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 32px;
+}
+.error-item {
+  background: rgba(247,111,111,0.06);
+  border: 0.5px solid rgba(247,111,111,0.2);
+  border-left: 3px solid var(--accent4);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 12px 14px;
+  display: flex; gap: 12px; align-items: flex-start;
+}
+.error-num {
+  font-family: 'Unbounded', sans-serif; font-size: 18px; font-weight: 700;
+  color: var(--accent4); opacity: .5; flex-shrink: 0; line-height: 1;
+}
+.error-text { font-size: 13px; color: var(--text); line-height: 1.5; }
+.error-text strong { color: var(--accent4); font-weight: 600; }
+
+/* ── TASKS ── */
+.tasks-list { display: flex; flex-direction: column; gap: 16px; }
+
+.task-card {
+  background: var(--card);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: border-color .2s;
+}
+.task-card:hover { border-color: var(--border2); }
+
+.task-header {
+  padding: 16px 20px;
+  display: flex; align-items: flex-start; gap: 14px; cursor: pointer;
+}
+.task-badge {
+  display: flex; flex-direction: column; align-items: center;
+  flex-shrink: 0; gap: 3px;
+}
+.task-num {
+  font-family: 'Unbounded', sans-serif; font-size: 11px; font-weight: 700;
+  color: var(--text3);
+}
+.diff-dots { display: flex; gap: 3px; }
+.diff-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--border2);
+}
+.diff-dot.filled { background: var(--accent2); }
+
+.task-body-text { flex: 1; }
+.task-level {
+  font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+  padding: 2px 8px; border-radius: 4px; margin-bottom: 6px; display: inline-block;
+}
+.level-1 { background: rgba(95,227,161,0.1); color: var(--accent3); }
+.level-2 { background: rgba(79,142,247,0.1); color: var(--accent); }
+.level-3 { background: rgba(247,193,79,0.1); color: var(--accent2); }
+.level-4 { background: rgba(247,111,111,0.1); color: var(--accent4); }
+
+.task-question { font-size: 15px; color: var(--text); line-height: 1.6; }
+.task-toggle {
+  flex-shrink: 0; width: 28px; height: 28px;
+  border: 0.5px solid var(--border2); border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text2); font-size: 16px;
+  transition: background .2s, color .2s, transform .25s;
+  margin-top: 2px;
+}
+.task-card.open .task-toggle { transform: rotate(90deg); color: var(--accent); background: rgba(79,142,247,0.1); }
+
+.task-solution {
+  display: none;
+  padding: 0 20px 20px;
+  border-top: 0.5px solid var(--border);
+  background: var(--bg3);
+}
+.task-card.open .task-solution { display: block; }
+.solution-title {
+  font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--accent3); padding: 14px 0 10px; margin-bottom: 0;
+}
+.solution-step {
+  display: flex; gap: 12px; align-items: flex-start; margin-bottom: 8px;
+}
+.step-num {
+  font-family: 'Unbounded', sans-serif; font-size: 10px; font-weight: 700;
+  width: 20px; height: 20px; border-radius: 4px;
+  background: rgba(79,142,247,0.15); color: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 2px;
+}
+.step-text { font-size: 14px; color: var(--text); line-height: 1.6; }
+.answer-box {
+  margin-top: 14px; padding: 12px 16px;
+  background: rgba(95,227,161,0.06);
+  border: 0.5px solid rgba(95,227,161,0.2);
+  border-radius: var(--radius-sm);
+  font-size: 15px; font-weight: 500; color: var(--accent3);
+}
+.answer-box span { color: var(--text2); font-size: 12px; font-weight: 400; }
+
+/* ── DIAGRAM PANEL ── */
+.diagram-container {
+  background: var(--card); border: 0.5px solid var(--border);
+  border-radius: var(--radius); padding: 24px; margin-bottom: 24px;
+}
+.diagram-title {
+  font-family: 'Unbounded', sans-serif; font-size: 14px; font-weight: 600;
+  color: var(--text); margin-bottom: 6px;
+}
+.diagram-desc { font-size: 13px; color: var(--text2); margin-bottom: 20px; }
+.diagram-switcher { display: flex; gap: 8px; margin-bottom: 20px; }
+.dsw-btn {
+  padding: 7px 14px; font-size: 13px; font-weight: 500;
+  border: 0.5px solid var(--border2); border-radius: var(--radius-sm);
+  color: var(--text2); cursor: pointer; transition: all .2s;
+  background: transparent;
+}
+.dsw-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+.dsw-btn:hover:not(.active) { color: var(--text); border-color: var(--text2); }
+.diagram-svg-wrap { width: 100%; display: flex; justify-content: center; }
+.diagram-svg-wrap svg { max-width: 560px; width: 100%; }
+
+/* ── REFERENCES ── */
+.ref-grid {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 14px;
+}
+.ref-card {
+  background: var(--card); border: 0.5px solid var(--border);
+  border-radius: var(--radius); padding: 18px 16px;
+}
+.ref-icon { font-size: 24px; margin-bottom: 10px; }
+.ref-card h4 { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+.ref-list { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+.ref-list li { font-size: 12px; color: var(--text2); padding-left: 12px; position: relative; }
+.ref-list li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-size: 10px; }
+
+/* ── FOOTER ── */
+footer {
+  text-align: center; padding: 24px;
+  color: var(--text3); font-size: 12px;
+  border-top: 0.5px solid var(--border);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 720px) {
+  .hero { grid-template-columns: 1fr; }
+  .hero-visual { display: none; }
+  .theory-grid { grid-template-columns: 1fr; }
+  .errors-grid { grid-template-columns: 1fr; }
+  .ref-grid { grid-template-columns: 1fr; }
+  .hero h1 { font-size: 26px; }
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:none; } }
+.fade-in { animation: fadeUp .4s ease both; }
+.fade-in:nth-child(2) { animation-delay: .06s; }
+.fade-in:nth-child(3) { animation-delay: .12s; }
+.fade-in:nth-child(4) { animation-delay: .18s; }
+
+/* Progress indicator */
+.progress-bar {
+  height: 3px; background: var(--border);
+  border-radius: 2px; margin-bottom: 32px; overflow: hidden;
+}
+.progress-fill {
+  height: 100%; border-radius: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--accent3));
+  transition: width .5s ease;
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">НМТ ▸ Стерео</div>
+  <div class="nav-chapters">
+    <div class="nav-chapter active" onclick="showChapter('poly')">
+      <span class="ch-dot"></span>Багатогранники
+    </div>
+    <div class="nav-chapter soon" onclick="">
+      <span class="ch-dot"></span>Циліндри. Конуси
+      <span class="soon-badge">скоро</span>
+    </div>
+    <div class="nav-chapter soon" onclick="">
+      <span class="ch-dot"></span>Сфери. Кулі
+      <span class="soon-badge">скоро</span>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div>
+    <div class="hero-label">Підготовка до НМТ-2026 · Стереометрія</div>
+    <h1>Багатогранники.<br><span>Призми. Піраміди.</span></h1>
+    <p class="hero-desc">Повний урок із формулами, наочними схемами та типовими задачами НМТ. Розбираємо теорію — і одразу відпрацьовуємо на практиці.</p>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-val">5</span><span class="stat-lbl">задач НМТ</span></div>
+      <div class="stat"><span class="stat-val">12</span><span class="stat-lbl">формул</span></div>
+      <div class="stat"><span class="stat-val">6</span><span class="stat-lbl">типових помилок</span></div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <svg class="hero-svg" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="glow1" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#4f8ef7" stop-opacity="0.15"/>
+          <stop offset="100%" stop-color="#4f8ef7" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="glow2" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#f7c14f" stop-opacity="0.12"/>
+          <stop offset="100%" stop-color="#f7c14f" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <circle cx="150" cy="150" r="120" fill="url(#glow1)"/>
+      <!-- Prism wireframe -->
+      <polygon points="80,200 220,200 220,100 80,100" fill="none" stroke="#4f8ef7" stroke-width="1" stroke-opacity="0.3"/>
+      <polygon points="80,200 150,230 220,200" fill="none" stroke="#4f8ef7" stroke-width="1" stroke-opacity="0.3"/>
+      <polygon points="80,100 150,70 220,100" fill="none" stroke="#4f8ef7" stroke-width="1.5" stroke-opacity="0.6"/>
+      <line x1="80" y1="100" x2="80" y2="200" stroke="#4f8ef7" stroke-width="1.5" stroke-opacity="0.6"/>
+      <line x1="220" y1="100" x2="220" y2="200" stroke="#4f8ef7" stroke-width="1.5" stroke-opacity="0.6"/>
+      <line x1="150" y1="70" x2="150" y2="230" stroke="#4f8ef7" stroke-width="1" stroke-opacity="0.25" stroke-dasharray="4 3"/>
+      <!-- Pyramid overlay -->
+      <circle cx="150" cy="160" r="90" fill="url(#glow2)"/>
+      <polygon points="150,55 80,215 220,215" fill="none" stroke="#f7c14f" stroke-width="1.5" stroke-opacity="0.7"/>
+      <line x1="150" y1="55" x2="150" y2="215" stroke="#f7c14f" stroke-width="1" stroke-opacity="0.3" stroke-dasharray="4 3"/>
+      <line x1="150" y1="215" x2="100" y2="190" stroke="#f7c14f" stroke-width="0.8" stroke-opacity="0.35" stroke-dasharray="3 3"/>
+      <!-- Labels -->
+      <text x="148" y="50" fill="#f7c14f" font-size="11" text-anchor="middle" font-family="'Golos Text', sans-serif" opacity="0.9">S</text>
+      <text x="150" y="238" fill="#4f8ef7" font-size="11" text-anchor="middle" font-family="'Golos Text', sans-serif" opacity="0.9">h</text>
+      <!-- Grid dots -->
+      <circle cx="80" cy="100" r="3" fill="#4f8ef7" opacity="0.8"/>
+      <circle cx="220" cy="100" r="3" fill="#4f8ef7" opacity="0.8"/>
+      <circle cx="80" cy="200" r="3" fill="#4f8ef7" opacity="0.5"/>
+      <circle cx="220" cy="200" r="3" fill="#4f8ef7" opacity="0.5"/>
+      <circle cx="150" cy="70" r="3" fill="#4f8ef7" opacity="0.8"/>
+      <circle cx="150" cy="55" r="4" fill="#f7c14f" opacity="0.9"/>
+      <circle cx="80" cy="215" r="3" fill="#f7c14f" opacity="0.6"/>
+      <circle cx="220" cy="215" r="3" fill="#f7c14f" opacity="0.6"/>
+    </svg>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs-bar">
+  <div class="tab-btn active" onclick="showTab('theory')">Теорія</div>
+  <div class="tab-btn" onclick="showTab('diagrams')">Схеми</div>
+  <div class="tab-btn" onclick="showTab('tasks')">Задачі НМТ</div>
+  <div class="tab-btn" onclick="showTab('errors')">Помилки</div>
+</div>
+
+<!-- MAIN -->
+<main>
+
+<!-- ═══ THEORY ═══ -->
+<div class="tab-panel active" id="panel-theory">
+
+  <div class="section-hd fade-in">
+    <h2>Призма</h2>
+    <p>Пряма призма: висота перпендикулярна до основ. Правильна призма: правильний многокутник в основі + пряма.</p>
+  </div>
+
+  <div class="theory-grid">
+    <div class="theory-block prism fade-in">
+      <h3><span class="icon icon-blue">▦</span>Бічна поверхня</h3>
+      <div class="formula-row">
+        <div class="formula-item">
+          <div class="f-label">Пряма призма</div>
+          <div class="f-math">\( S_{\text{бік}} = P_{\text{осн}} \cdot h \)</div>
+          <div class="f-note">P — периметр основи, h — висота призми</div>
+        </div>
+        <div class="formula-item">
+          <div class="f-label">Похила призма</div>
+          <div class="f-math">\( S_{\text{бік}} = P_{\perp} \cdot \ell \)</div>
+          <div class="f-note">P⊥ — периметр перпендикулярного перерізу, ℓ — бічне ребро</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="theory-block prism fade-in">
+      <h3><span class="icon icon-blue">◻</span>Повна поверхня та об'єм</h3>
+      <div class="formula-row">
+        <div class="formula-item">
+          <div class="f-label">Повна поверхня</div>
+          <div class="f-math">\( S_{\text{повн}} = S_{\text{бік}} + 2S_{\text{осн}} \)</div>
+          <div class="f-note">Sосн — площа однієї основи</div>
+        </div>
+        <div class="formula-item">
+          <div class="f-label">Об'єм (будь-яка призма)</div>
+          <div class="f-math">\( V = S_{\text{осн}} \cdot h \)</div>
+          <div class="f-note">h — висота (перпендикуляр між основами)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="theory-block prism fade-in">
+      <h3><span class="icon icon-blue">△</span>Площа правильних основ</h3>
+      <div class="formula-row">
+        <div class="formula-item">
+          <div class="f-label">Правильний трикутник</div>
+          <div class="f-math">\( S = \dfrac{\sqrt{3}}{4} a^2 \)</div>
+        </div>
+        <div class="formula-item">
+          <div class="f-label">Правильний шестикутник</div>
+          <div class="f-math">\( S = \dfrac{3\sqrt{3}}{2} a^2 \)</div>
+        </div>
+        <div class="formula-item">
+          <div class="f-label">Квадрат / прямокутник</div>
+          <div class="f-math">\( S = a^2 \quad / \quad S = ab \)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="theory-block extra fade-in">
+      <h3><span class="icon icon-green">⟡</span>Радіуси для правильного трикутника</h3>
+      <div class="formula-row">
+        <div class="formula-item">
+          <div class="f-label">Описане коло (R)</div>
+          <div class="f-math">\( R = \dfrac{a}{\sqrt{3}} \)</div>
+        </div>
+        <div class="formula-item">
+          <div class="f-label">Вписане коло (r)</div>
+          <div class="f-math">\( r = \dfrac{a}{2\sqrt{3}} \)</div>
+        </div>
+        <div class="formula-item">
+          <div class="f-label">Для квадрата</div>
+          <div class="f-math">\( R = \dfrac{a\sqrt{2}}{2}, \quad r = \dfrac{a}{2} \)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-hd fade-in" style="margin-top:8px">
+    <h2>Піраміда</h2>
+    <p>Правильна піраміда: правильний многокутник в основі, вершина проектується в його центр.</p>
+  </div>
+
+  <div class="theory-grid">
+    <div class="theory-block pyramid fade-in">
+      <h3><span class="icon icon-yellow">△</span>Три ключові відрізки</h3>
+      <div class="formula-row">
+        <div class="formula-item">
+          <div class="f-label">Апофема (a) — від вершини до середини сторони основи</div>
+          <div class="f-math">\( a^2 = h^2 + r^2 \)</div>
+          <div class="f-note">r — радіус вписаного кола основи</div>
+        </div>
+        <div class="formula-item">
+          <div class="f-label">Бічне ребро (ℓ) — від вершини до кута основи</div>
+          <div class="f-math">\( \ell^2 = h^2 + R^2 \)</div>
+          <div class="f-note">R — радіус описаного кола основи</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="theory-block pyramid fade-in">
+      <h3><span class="icon icon-yellow">◈</span>Поверхні та об'єм</h3>
+      <div class="formula-row">
+        <div class="formula-item">
+          <div class="f-label">Бічна поверхня правильної піраміди</div>
+          <div class="f-math">\( S_{\text{бік}} = \dfrac{1}{2} P_{\text{осн}} \cdot a \)</div>
+          <div class="f-note">a — апофема (не бічне ребро!)</div>
+        </div>
+        <div class="formula-item">
+          <div class="f-label">Об'єм</div>
+          <div class="f-math">\( V = \dfrac{1}{3} S_{\text{осн}} \cdot h \)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="theory-block pyramid fade-in">
+      <h3><span class="icon icon-yellow">⬡</span>Усічена піраміда</h3>
+      <div class="formula-row">
+        <div class="formula-item">
+          <div class="f-label">Об'єм</div>
+          <div class="f-math">\( V = \dfrac{h}{3}\!\left(S_1 + S_2 + \sqrt{S_1 S_2}\right) \)</div>
+          <div class="f-note">S₁, S₂ — площі основ; h — висота</div>
+        </div>
+        <div class="formula-item">
+          <div class="f-label">Бічна поверхня правильної усіченої</div>
+          <div class="f-math">\( S_{\text{бік}} = \dfrac{1}{2}(P_1 + P_2) \cdot a_{\text{ус}} \)</div>
+          <div class="f-note">aус — апофема усіченої піраміди</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="theory-block extra fade-in">
+      <h3><span class="icon icon-green">≡</span>Відношення об'ємів</h3>
+      <div class="formula-row">
+        <div class="formula-item">
+          <div class="f-label">Подібні піраміди / призми</div>
+          <div class="f-math">\( \dfrac{V_1}{V_2} = k^3 \)</div>
+          <div class="f-note">k — коефіцієнт подібності ребер</div>
+        </div>
+        <div class="formula-item">
+          <div class="f-label">Площі поверхонь</div>
+          <div class="f-math">\( \dfrac{S_1}{S_2} = k^2 \)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-hd fade-in">
+    <h2>Важливі зв'язки</h2>
+    <p>Часто потрібні при розв'язуванні задач НМТ.</p>
+  </div>
+
+  <table class="rel-table fade-in">
+    <thead>
+      <tr>
+        <th>Фігура</th>
+        <th>Співвідношення</th>
+        <th>Коментар</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Правильна 4-кутна піраміда</td>
+        <td>\(\ell^2 = h^2 + (a/2)^2\)</td>
+        <td>ℓ — бічне ребро, a — сторона основи</td>
+      </tr>
+      <tr>
+        <td>Правильна 3-кутна піраміда</td>
+        <td>\(R = a/\sqrt{3},\; r = a/(2\sqrt{3})\)</td>
+        <td>R, r — кола основи зі стороною a</td>
+      </tr>
+      <tr>
+        <td>Правильна 6-кутна призма</td>
+        <td>\(S_{\text{осн}} = \frac{3\sqrt{3}}{2}a^2\)</td>
+        <td>a — сторона правильного шестикутника</td>
+      </tr>
+      <tr>
+        <td>Апофема правил. n-кутної піраміди</td>
+        <td>\(a^2 = h^2 + r^2\)</td>
+        <td>r — радіус вписаного кола основи</td>
+      </tr>
+      <tr>
+        <td>Бічне ребро правил. піраміди</td>
+        <td>\(\ell^2 = h^2 + R^2\)</td>
+        <td>R — радіус описаного кола основи</td>
+      </tr>
+      <tr>
+        <td>Діагональ куба зі стороною a</td>
+        <td>\(d = a\sqrt{3}\)</td>
+        <td>Діагональ бічної грані: \(d_{\text{бок}} = a\sqrt{2}\)</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══ DIAGRAMS ═══ -->
+<div class="tab-panel" id="panel-diagrams">
+  <div class="section-hd fade-in">
+    <h2>Наочні схеми</h2>
+    <p>Підписані схеми ключових фігур — для розуміння що є що.</p>
+  </div>
+
+  <div class="diagram-container fade-in">
+    <div class="diagram-title">Правильна чотирикутна піраміда</div>
+    <div class="diagram-desc">Три ключові відрізки: висота h (синій), апофема a (помаранчевий), бічне ребро ℓ (червоний)</div>
+    <div class="diagram-switcher">
+      <button class="dsw-btn active" onclick="showDiag('pyr4','all')">Всі позначення</button>
+      <button class="dsw-btn" onclick="showDiag('pyr4','h')">Тільки h</button>
+      <button class="dsw-btn" onclick="showDiag('pyr4','a')">Тільки апофема</button>
+      <button class="dsw-btn" onclick="showDiag('pyr4','l')">Тільки ребро ℓ</button>
+    </div>
+    <div class="diagram-svg-wrap">
+      <svg id="svg-pyr4" viewBox="0 0 480 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Base square: perspective -->
+        <polygon id="pyr4-base" points="120,270 360,270 420,310 60,310" fill="rgba(79,142,247,0.05)" stroke="#4f8ef7" stroke-width="1.5" stroke-opacity="0.4"/>
+        <!-- hidden diagonals of base -->
+        <line x1="120" y1="270" x2="420" y2="310" stroke="#4f8ef7" stroke-width="0.8" stroke-dasharray="4 3" stroke-opacity="0.25"/>
+        <line x1="360" y1="270" x2="60" y2="310" stroke="#4f8ef7" stroke-width="0.8" stroke-dasharray="4 3" stroke-opacity="0.25"/>
+        <!-- Center of base -->
+        <circle cx="240" cy="290" r="3" fill="#4f8ef7" opacity="0.5"/>
+        <!-- Lateral edges -->
+        <line id="pyr4-l1" x1="240" y1="60" x2="120" y2="270" stroke="#f76f6f" stroke-width="2" stroke-opacity="0.7"/>
+        <line id="pyr4-l2" x1="240" y1="60" x2="360" y2="270" stroke="#f76f6f" stroke-width="2" stroke-opacity="0.7"/>
+        <line id="pyr4-l3" x1="240" y1="60" x2="420" y2="310" stroke="#f76f6f" stroke-width="1.5" stroke-opacity="0.35" stroke-dasharray="4 3"/>
+        <line id="pyr4-l4" x1="240" y1="60" x2="60" y2="310" stroke="#f76f6f" stroke-width="1.5" stroke-opacity="0.35" stroke-dasharray="4 3"/>
+        <!-- Height h -->
+        <line id="pyr4-h" x1="240" y1="60" x2="240" y2="290" stroke="#4f8ef7" stroke-width="2.5" stroke-opacity="0.9"/>
+        <line x1="228" y1="290" x2="228" y2="278" stroke="#4f8ef7" stroke-width="1.5" stroke-opacity="0.6"/>
+        <line x1="228" y1="278" x2="240" y2="278" stroke="#4f8ef7" stroke-width="1.5" stroke-opacity="0.6"/>
+        <!-- Apothem a: from apex to midpoint of front edge -->
+        <line id="pyr4-a" x1="240" y1="60" x2="240" y2="270" stroke="#f7c14f" stroke-width="2" stroke-opacity="0.85" stroke-dasharray="6 3"/>
+        <!-- Right angle mark at foot of apothem -->
+        <line x1="228" y1="270" x2="228" y2="258" stroke="#f7c14f" stroke-width="1.2" stroke-opacity="0.7"/>
+        <line x1="228" y1="258" x2="240" y2="258" stroke="#f7c14f" stroke-width="1.2" stroke-opacity="0.7"/>
+        <!-- Labels -->
+        <circle cx="240" cy="60" r="5" fill="#5fe3a1" opacity="0.9"/>
+        <!-- h label -->
+        <rect x="248" y="160" width="22" height="20" rx="4" fill="rgba(79,142,247,0.15)"/>
+        <text id="lbl-h" x="259" y="174" fill="#4f8ef7" font-size="14" font-weight="600" text-anchor="middle" font-family="'Golos Text', sans-serif">h</text>
+        <!-- a label -->
+        <rect x="200" y="150" width="22" height="20" rx="4" fill="rgba(247,193,79,0.15)"/>
+        <text id="lbl-a" x="211" y="164" fill="#f7c14f" font-size="14" font-weight="600" text-anchor="middle" font-family="'Golos Text', sans-serif">a</text>
+        <!-- ℓ label -->
+        <rect x="155" y="145" width="18" height="20" rx="4" fill="rgba(247,111,111,0.15)"/>
+        <text id="lbl-l" x="164" y="159" fill="#f76f6f" font-size="14" font-weight="600" text-anchor="middle" font-family="'Golos Text', sans-serif">ℓ</text>
+        <!-- Apex label -->
+        <text x="240" y="46" fill="#5fe3a1" font-size="13" font-weight="600" text-anchor="middle" font-family="'Golos Text', sans-serif">S</text>
+        <!-- Base corners -->
+        <circle cx="120" cy="270" r="3" fill="#4f8ef7" opacity="0.6"/>
+        <circle cx="360" cy="270" r="3" fill="#4f8ef7" opacity="0.6"/>
+        <!-- r label (inradius) -->
+        <text x="240" y="314" fill="#9094b0" font-size="11" text-anchor="middle" font-family="'Golos Text', sans-serif">← r = a/2 →</text>
+        <!-- Formula reminder -->
+        <text x="30" y="40" fill="#4f8ef7" font-size="12" font-family="'Golos Text', sans-serif" opacity="0.8">h — висота</text>
+        <line x1="24" y1="44" x2="24" y2="58" stroke="#4f8ef7" stroke-width="1.5" stroke-opacity="0.5"/>
+        <text x="30" y="80" fill="#f7c14f" font-size="12" font-family="'Golos Text', sans-serif" opacity="0.8">a — апофема</text>
+        <text x="30" y="110" fill="#f76f6f" font-size="12" font-family="'Golos Text', sans-serif" opacity="0.8">ℓ — бічне ребро</text>
+        <!-- Key triangle -->
+        <text x="360" y="185" fill="#9094b0" font-size="11" font-family="'Golos Text', sans-serif">ℓ² = h² + R²</text>
+        <text x="360" y="202" fill="#9094b0" font-size="11" font-family="'Golos Text', sans-serif">a² = h² + r²</text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="diagram-container fade-in">
+    <div class="diagram-title">Пряма трикутна призма</div>
+    <div class="diagram-desc">Показано висоту h, бічне ребро (= h для прямої призми), периметр основи P для формули Sбік = P·h</div>
+    <div class="diagram-svg-wrap">
+      <svg viewBox="0 0 480 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Bottom triangle -->
+        <polygon points="100,280 380,280 240,310" fill="rgba(79,142,247,0.07)" stroke="#4f8ef7" stroke-width="1.5" stroke-opacity="0.5"/>
+        <!-- Top triangle -->
+        <polygon points="100,130 380,130 240,160" fill="rgba(79,142,247,0.1)" stroke="#4f8ef7" stroke-width="1.5" stroke-opacity="0.8"/>
+        <!-- Lateral edges -->
+        <line x1="100" y1="130" x2="100" y2="280" stroke="#4f8ef7" stroke-width="2" stroke-opacity="0.8"/>
+        <line x1="380" y1="130" x2="380" y2="280" stroke="#4f8ef7" stroke-width="2" stroke-opacity="0.8"/>
+        <line x1="240" y1="160" x2="240" y2="310" stroke="#4f8ef7" stroke-width="1.5" stroke-opacity="0.3" stroke-dasharray="4 3"/>
+        <!-- Height -->
+        <line x1="100" y1="130" x2="100" y2="280" stroke="#5fe3a1" stroke-width="3" stroke-opacity="0.7"/>
+        <text x="74" y="210" fill="#5fe3a1" font-size="14" font-weight="600" font-family="'Golos Text', sans-serif">h</text>
+        <!-- Perpendicular mark -->
+        <line x1="112" y1="280" x2="112" y2="268" stroke="#5fe3a1" stroke-width="1.5" stroke-opacity="0.6"/>
+        <line x1="100" y1="268" x2="112" y2="268" stroke="#5fe3a1" stroke-width="1.5" stroke-opacity="0.6"/>
+        <!-- P label on base -->
+        <text x="240" y="332" fill="#f7c14f" font-size="12" text-anchor="middle" font-family="'Golos Text', sans-serif">P = a + b + c (периметр основи)</text>
+        <!-- Sбік label -->
+        <text x="240" y="108" fill="#9094b0" font-size="12" text-anchor="middle" font-family="'Golos Text', sans-serif">Sбік = P · h</text>
+        <!-- Area label -->
+        <text x="240" y="88" fill="#4f8ef7" font-size="12" text-anchor="middle" font-family="'Golos Text', sans-serif">V = S осн · h</text>
+        <!-- Vertices -->
+        <circle cx="100" cy="130" r="3.5" fill="#4f8ef7" opacity="0.9"/>
+        <circle cx="380" cy="130" r="3.5" fill="#4f8ef7" opacity="0.9"/>
+        <circle cx="240" cy="160" r="3.5" fill="#4f8ef7" opacity="0.5"/>
+        <circle cx="100" cy="280" r="3.5" fill="#4f8ef7" opacity="0.6"/>
+        <circle cx="380" cy="280" r="3.5" fill="#4f8ef7" opacity="0.6"/>
+        <circle cx="240" cy="310" r="3.5" fill="#4f8ef7" opacity="0.3"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="diagram-container fade-in">
+    <div class="diagram-title">Розгортка бічної поверхні призми</div>
+    <div class="diagram-desc">Бічна поверхня розгортається в прямокутник: ширина = P основи, висота = h призми</div>
+    <div class="diagram-svg-wrap">
+      <svg viewBox="0 0 480 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Unrolled rectangle -->
+        <rect x="60" y="40" width="360" height="120" fill="rgba(79,142,247,0.08)" stroke="#4f8ef7" stroke-width="1.5" stroke-opacity="0.6" rx="2"/>
+        <!-- Division lines -->
+        <line x1="180" y1="40" x2="180" y2="160" stroke="#4f8ef7" stroke-width="0.8" stroke-dasharray="4 3" stroke-opacity="0.4"/>
+        <line x1="270" y1="40" x2="270" y2="160" stroke="#4f8ef7" stroke-width="0.8" stroke-dasharray="4 3" stroke-opacity="0.4"/>
+        <line x1="350" y1="40" x2="350" y2="160" stroke="#4f8ef7" stroke-width="0.8" stroke-dasharray="4 3" stroke-opacity="0.4"/>
+        <!-- Labels inside sections -->
+        <text x="120" y="105" fill="#9094b0" font-size="12" text-anchor="middle" font-family="'Golos Text', sans-serif">грань 1</text>
+        <text x="225" y="105" fill="#9094b0" font-size="12" text-anchor="middle" font-family="'Golos Text', sans-serif">грань 2</text>
+        <text x="310" y="105" fill="#9094b0" font-size="12" text-anchor="middle" font-family="'Golos Text', sans-serif">грань 3</text>
+        <text x="405" y="105" fill="#9094b0" font-size="12" text-anchor="middle" font-family="'Golos Text', sans-serif">грань n</text>
+        <!-- h arrow -->
+        <line x1="36" y1="40" x2="36" y2="160" stroke="#5fe3a1" stroke-width="1.5" marker-end="url(#arr-g)" marker-start="url(#arr-g2)"/>
+        <text x="26" y="105" fill="#5fe3a1" font-size="14" font-weight="600" text-anchor="middle" font-family="'Golos Text', sans-serif">h</text>
+        <!-- P arrow -->
+        <line x1="60" y1="180" x2="420" y2="180" stroke="#f7c14f" stroke-width="1.5" marker-end="url(#arr-y)" marker-start="url(#arr-y2)"/>
+        <text x="240" y="196" fill="#f7c14f" font-size="13" font-weight="600" text-anchor="middle" font-family="'Golos Text', sans-serif">P = периметр основи</text>
+        <!-- Formula overlay -->
+        <text x="240" y="22" fill="#e8eaf2" font-size="13" font-weight="500" text-anchor="middle" font-family="'Golos Text', sans-serif">S бік = P · h</text>
+        <defs>
+          <marker id="arr-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+            <path d="M2 1L8 5L2 9" fill="none" stroke="#5fe3a1" stroke-width="1.5" stroke-linecap="round"/>
+          </marker>
+          <marker id="arr-g2" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+            <path d="M8 1L2 5L8 9" fill="none" stroke="#5fe3a1" stroke-width="1.5" stroke-linecap="round"/>
+          </marker>
+          <marker id="arr-y" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+            <path d="M2 1L8 5L2 9" fill="none" stroke="#f7c14f" stroke-width="1.5" stroke-linecap="round"/>
+          </marker>
+          <marker id="arr-y2" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+            <path d="M8 1L2 5L8 9" fill="none" stroke="#f7c14f" stroke-width="1.5" stroke-linecap="round"/>
+          </marker>
+        </defs>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ TASKS ═══ -->
+<div class="tab-panel" id="panel-tasks">
+
+  <div class="section-hd fade-in">
+    <h2>Задачі у стилі НМТ</h2>
+    <p>Натисніть ▶ щоб розкрити повний розв'язок з поясненням кожного кроку.</p>
+  </div>
+
+  <div class="progress-bar"><div class="progress-fill" id="task-progress" style="width:0%"></div></div>
+
+  <div class="tasks-list" id="tasks-list">
+
+    <!-- Task 1 -->
+    <div class="task-card fade-in" id="task-1">
+      <div class="task-header" onclick="toggleTask('task-1')">
+        <div class="task-badge">
+          <div class="task-num">№1</div>
+          <div class="diff-dots">
+            <span class="diff-dot filled"></span><span class="diff-dot"></span><span class="diff-dot"></span><span class="diff-dot"></span>
+          </div>
+        </div>
+        <div class="task-body-text">
+          <span class="task-level level-1">базова</span>
+          <div class="task-question">Основа прямої трикутної призми — рівносторонній трикутник зі стороною 4 см. Висота призми 9 см. Знайдіть об'єм призми.</div>
+        </div>
+        <div class="task-toggle">▶</div>
+      </div>
+      <div class="task-solution">
+        <div class="solution-title">Розв'язання</div>
+        <div class="solution-step"><span class="step-num">1</span><span class="step-text">Площа рівностороннього трикутника: \(S_{\text{осн}} = \dfrac{\sqrt{3}}{4} \cdot 4^2 = \dfrac{\sqrt{3}}{4} \cdot 16 = 4\sqrt{3}\) см²</span></div>
+        <div class="solution-step"><span class="step-num">2</span><span class="step-text">Об'єм призми: \(V = S_{\text{осн}} \cdot h = 4\sqrt{3} \cdot 9 = 36\sqrt{3}\) см³</span></div>
+        <div class="answer-box"><span>Відповідь: </span>\(V = 36\sqrt{3} \approx 62{,}4\) см³</div>
+      </div>
+    </div>
+
+    <!-- Task 2 -->
+    <div class="task-card fade-in" id="task-2">
+      <div class="task-header" onclick="toggleTask('task-2')">
+        <div class="task-badge">
+          <div class="task-num">№2</div>
+          <div class="diff-dots">
+            <span class="diff-dot filled"></span><span class="diff-dot filled"></span><span class="diff-dot"></span><span class="diff-dot"></span>
+          </div>
+        </div>
+        <div class="task-body-text">
+          <span class="task-level level-2">середня</span>
+          <div class="task-question">Правильна чотирикутна піраміда має сторону основи 6 см і висоту 4 см. Знайдіть площу бічної поверхні.</div>
+        </div>
+        <div class="task-toggle">▶</div>
+      </div>
+      <div class="task-solution">
+        <div class="solution-title">Розв'язання</div>
+        <div class="solution-step"><span class="step-num">1</span><span class="step-text">Для квадратної основи: радіус вписаного кола \(r = \dfrac{a}{2} = \dfrac{6}{2} = 3\) см</span></div>
+        <div class="solution-step"><span class="step-num">2</span><span class="step-text">Апофема: \(a^2 = h^2 + r^2 = 16 + 9 = 25\), тому \(a = 5\) см</span></div>
+        <div class="solution-step"><span class="step-num">3</span><span class="step-text">Периметр основи: \(P = 4 \cdot 6 = 24\) см</span></div>
+        <div class="solution-step"><span class="step-num">4</span><span class="step-text">Бічна поверхня: \(S_{\text{бік}} = \dfrac{1}{2} \cdot 24 \cdot 5 = 60\) см²</span></div>
+        <div class="answer-box"><span>Відповідь: </span>\(S_{\text{бік}} = 60\) см²</div>
+      </div>
+    </div>
+
+    <!-- Task 3 -->
+    <div class="task-card fade-in" id="task-3">
+      <div class="task-header" onclick="toggleTask('task-3')">
+        <div class="task-badge">
+          <div class="task-num">№3</div>
+          <div class="diff-dots">
+            <span class="diff-dot filled"></span><span class="diff-dot filled"></span><span class="diff-dot"></span><span class="diff-dot"></span>
+          </div>
+        </div>
+        <div class="task-body-text">
+          <span class="task-level level-2">середня</span>
+          <div class="task-question">Знайдіть повну поверхню правильної шестикутної призми, якщо сторона основи 2 см, висота 5 см.</div>
+        </div>
+        <div class="task-toggle">▶</div>
+      </div>
+      <div class="task-solution">
+        <div class="solution-title">Розв'язання</div>
+        <div class="solution-step"><span class="step-num">1</span><span class="step-text">Площа правильного шестикутника: \(S_{\text{осн}} = \dfrac{3\sqrt{3}}{2} \cdot 2^2 = \dfrac{3\sqrt{3}}{2} \cdot 4 = 6\sqrt{3}\) см²</span></div>
+        <div class="solution-step"><span class="step-num">2</span><span class="step-text">Периметр основи: \(P = 6 \cdot 2 = 12\) см</span></div>
+        <div class="solution-step"><span class="step-num">3</span><span class="step-text">Бічна поверхня: \(S_{\text{бік}} = 12 \cdot 5 = 60\) см²</span></div>
+        <div class="solution-step"><span class="step-num">4</span><span class="step-text">Повна поверхня: \(S_{\text{повн}} = 60 + 2 \cdot 6\sqrt{3} = 60 + 12\sqrt{3}\) см²</span></div>
+        <div class="answer-box"><span>Відповідь: </span>\(S_{\text{повн}} = 60 + 12\sqrt{3} \approx 80{,}8\) см²</div>
+      </div>
+    </div>
+
+    <!-- Task 4 -->
+    <div class="task-card fade-in" id="task-4">
+      <div class="task-header" onclick="toggleTask('task-4')">
+        <div class="task-badge">
+          <div class="task-num">№4</div>
+          <div class="diff-dots">
+            <span class="diff-dot filled"></span><span class="diff-dot filled"></span><span class="diff-dot filled"></span><span class="diff-dot"></span>
+          </div>
+        </div>
+        <div class="task-body-text">
+          <span class="task-level level-3">вище середнього</span>
+          <div class="task-question">Правильна трикутна піраміда: сторона основи 6 см, бічне ребро 5 см. Знайдіть об'єм.</div>
+        </div>
+        <div class="task-toggle">▶</div>
+      </div>
+      <div class="task-solution">
+        <div class="solution-title">Розв'язання</div>
+        <div class="solution-step"><span class="step-num">1</span><span class="step-text">Радіус описаного кола основи (рівностороннього трикутника зі стороною 6): \(R = \dfrac{6}{\sqrt{3}} = 2\sqrt{3}\) см</span></div>
+        <div class="solution-step"><span class="step-num">2</span><span class="step-text">Висота піраміди: \(h^2 = \ell^2 - R^2 = 25 - 12 = 13\), тому \(h = \sqrt{13}\) см</span></div>
+        <div class="solution-step"><span class="step-num">3</span><span class="step-text">Площа основи: \(S_{\text{осн}} = \dfrac{\sqrt{3}}{4} \cdot 36 = 9\sqrt{3}\) см²</span></div>
+        <div class="solution-step"><span class="step-num">4</span><span class="step-text">Об'єм: \(V = \dfrac{1}{3} \cdot 9\sqrt{3} \cdot \sqrt{13} = 3\sqrt{39}\) см³</span></div>
+        <div class="answer-box"><span>Відповідь: </span>\(V = 3\sqrt{39} \approx 18{,}7\) см³</div>
+      </div>
+    </div>
+
+    <!-- Task 5 -->
+    <div class="task-card fade-in" id="task-5">
+      <div class="task-header" onclick="toggleTask('task-5')">
+        <div class="task-badge">
+          <div class="task-num">№5</div>
+          <div class="diff-dots">
+            <span class="diff-dot filled"></span><span class="diff-dot filled"></span><span class="diff-dot filled"></span><span class="diff-dot filled"></span>
+          </div>
+        </div>
+        <div class="task-body-text">
+          <span class="task-level level-4">складна</span>
+          <div class="task-question">Висота усіченої правильної чотирикутної піраміди 3 см. Сторони основ 4 см і 2 см. Знайдіть об'єм.</div>
+        </div>
+        <div class="task-toggle">▶</div>
+      </div>
+      <div class="task-solution">
+        <div class="solution-title">Розв'язання</div>
+        <div class="solution-step"><span class="step-num">1</span><span class="step-text">Площі двох основ: \(S_1 = 4^2 = 16\) см², \(S_2 = 2^2 = 4\) см²</span></div>
+        <div class="solution-step"><span class="step-num">2</span><span class="step-text">Геометричне середнє: \(\sqrt{S_1 \cdot S_2} = \sqrt{16 \cdot 4} = \sqrt{64} = 8\) см²</span></div>
+        <div class="solution-step"><span class="step-num">3</span><span class="step-text">Об'єм за формулою усіченої піраміди: \(V = \dfrac{h}{3}(S_1 + S_2 + \sqrt{S_1 S_2}) = \dfrac{3}{3}(16 + 4 + 8) = 28\) см³</span></div>
+        <div class="answer-box"><span>Відповідь: </span>\(V = 28\) см³</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══ ERRORS ═══ -->
+<div class="tab-panel" id="panel-errors">
+  <div class="section-hd fade-in">
+    <h2>Типові помилки на НМТ</h2>
+    <p>Розбираємо 6 найпоширеніших помилок — саме за них учні втрачають бали.</p>
+  </div>
+
+  <div class="errors-grid">
+    <div class="error-item fade-in">
+      <div class="error-num">1</div>
+      <div class="error-text">Плутають <strong>h (висоту піраміди)</strong>, <strong>a (апофему)</strong> та <strong>ℓ (бічне ребро)</strong> — три абсолютно різних відрізки! h ⊥ основі, a ⊥ стороні основи, ℓ з'єднує вершину з кутом.</div>
+    </div>
+    <div class="error-item fade-in">
+      <div class="error-num">2</div>
+      <div class="error-text">У формулі \(S_{\text{бік}} = \frac{1}{2} P \cdot a\) підставляють <strong>бічне ребро ℓ</strong> замість апофеми <strong>a</strong>. Апофема — висота бічного трикутника, не його сторона!</div>
+    </div>
+    <div class="error-item fade-in">
+      <div class="error-num">3</div>
+      <div class="error-text">В об'ємі призми \(V = S_{\text{осн}} \cdot h\) підставляють <strong>бічне ребро</strong> замість <strong>висоти</strong>. Для прямої призми вони рівні, але в похилій — ні.</div>
+    </div>
+    <div class="error-item fade-in">
+      <div class="error-num">4</div>
+      <div class="error-text">При повній поверхні призми <strong>забувають додати 2 основи</strong> (або додають лише одну): \(S_{\text{повн}} = S_{\text{бік}} + 2S_{\text{осн}}\)</div>
+    </div>
+    <div class="error-item fade-in">
+      <div class="error-num">5</div>
+      <div class="error-text">Не пам'ятають формулу площі рівностороннього трикутника: \(S = \dfrac{\sqrt{3}}{4} a^2\). Без цього неможливо знайти ні площу основи, ні об'єм.</div>
+    </div>
+    <div class="error-item fade-in">
+      <div class="error-num">6</div>
+      <div class="error-text">В об'ємі усіченої піраміди <strong>замість \(\sqrt{S_1 S_2}\) беруть \(\frac{S_1+S_2}{2}\)</strong> — «середнє». Це неправильно! Формула: \(V = \frac{h}{3}(S_1 + S_2 + \sqrt{S_1 S_2})\)</div>
+    </div>
+  </div>
+
+  <div class="section-hd fade-in" style="margin-top: 16px;">
+    <h2>Пам'ятка: тричастинний трикутник піраміди</h2>
+  </div>
+
+  <div class="diagram-container fade-in">
+    <div class="diagram-desc">Три прямокутних трикутники, в яких завжди один катет — висота h</div>
+    <div class="diagram-svg-wrap">
+      <svg viewBox="0 0 480 160" fill="none">
+        <!-- Triangle 1: h, r, a -->
+        <polygon points="80,140 80,30 200,140" fill="rgba(247,193,79,0.07)" stroke="#f7c14f" stroke-width="1.5" stroke-opacity="0.7"/>
+        <line x1="80" y1="140" x2="80" y2="30" stroke="#4f8ef7" stroke-width="2.5" stroke-opacity="0.9"/>
+        <line x1="80" y1="140" x2="200" y2="140" stroke="#5fe3a1" stroke-width="2" stroke-opacity="0.8"/>
+        <line x1="80" y1="30" x2="200" y2="140" stroke="#f7c14f" stroke-width="2" stroke-opacity="0.9"/>
+        <line x1="80" y1="128" x2="92" y2="128" stroke="#f7c14f" stroke-width="1.2" stroke-opacity="0.6"/>
+        <line x1="92" y1="128" x2="92" y2="140" stroke="#f7c14f" stroke-width="1.2" stroke-opacity="0.6"/>
+        <text x="68" y="90" fill="#4f8ef7" font-size="13" font-weight="600" font-family="'Golos Text', sans-serif">h</text>
+        <text x="136" y="157" fill="#5fe3a1" font-size="13" font-weight="600" font-family="'Golos Text', sans-serif">r</text>
+        <text x="150" y="85" fill="#f7c14f" font-size="13" font-weight="600" font-family="'Golos Text', sans-serif">a</text>
+        <text x="140" y="18" fill="#9094b0" font-size="11" text-anchor="middle" font-family="'Golos Text', sans-serif">a²=h²+r²</text>
+
+        <!-- Triangle 2: h, R, l -->
+        <polygon points="240,140 240,30 380,140" fill="rgba(247,111,111,0.07)" stroke="#f76f6f" stroke-width="1.5" stroke-opacity="0.7"/>
+        <line x1="240" y1="140" x2="240" y2="30" stroke="#4f8ef7" stroke-width="2.5" stroke-opacity="0.9"/>
+        <line x1="240" y1="140" x2="380" y2="140" stroke="#9094b0" stroke-width="2" stroke-opacity="0.8"/>
+        <line x1="240" y1="30" x2="380" y2="140" stroke="#f76f6f" stroke-width="2" stroke-opacity="0.9"/>
+        <line x1="240" y1="128" x2="252" y2="128" stroke="#f76f6f" stroke-width="1.2" stroke-opacity="0.6"/>
+        <line x1="252" y1="128" x2="252" y2="140" stroke="#f76f6f" stroke-width="1.2" stroke-opacity="0.6"/>
+        <text x="228" y="90" fill="#4f8ef7" font-size="13" font-weight="600" font-family="'Golos Text', sans-serif">h</text>
+        <text x="306" y="157" fill="#9094b0" font-size="13" font-weight="600" font-family="'Golos Text', sans-serif">R</text>
+        <text x="318" y="85" fill="#f76f6f" font-size="13" font-weight="600" font-family="'Golos Text', sans-serif">ℓ</text>
+        <text x="310" y="18" fill="#9094b0" font-size="11" text-anchor="middle" font-family="'Golos Text', sans-serif">ℓ²=h²+R²</text>
+        <!-- Legend -->
+        <text x="440" y="60" fill="#4f8ef7" font-size="11" font-family="'Golos Text', sans-serif">h — висота</text>
+        <text x="440" y="80" fill="#5fe3a1" font-size="11" font-family="'Golos Text', sans-serif">r — вписане</text>
+        <text x="440" y="100" fill="#9094b0" font-size="11" font-family="'Golos Text', sans-serif">R — описане</text>
+        <text x="440" y="120" fill="#f7c14f" font-size="11" font-family="'Golos Text', sans-serif">a — апофема</text>
+        <text x="440" y="140" fill="#f76f6f" font-size="11" font-family="'Golos Text', sans-serif">ℓ — бічне ребро</text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="section-hd fade-in" style="margin-top: 8px;">
+    <h2>Корисні довідники</h2>
+  </div>
+  <div class="ref-grid fade-in">
+    <div class="ref-card">
+      <div class="ref-icon">📐</div>
+      <h4>Площі правильних многокутників</h4>
+      <ul class="ref-list">
+        <li>Трикутник: \(\frac{\sqrt{3}}{4}a^2\)</li>
+        <li>Квадрат: \(a^2\)</li>
+        <li>Шестикутник: \(\frac{3\sqrt{3}}{2}a^2\)</li>
+        <li>n-кутник: \(\frac{na^2}{4}\cot\frac{\pi}{n}\)</li>
+      </ul>
+    </div>
+    <div class="ref-card">
+      <div class="ref-icon">⭕</div>
+      <h4>Радіуси для рівностороннього △</h4>
+      <ul class="ref-list">
+        <li>Описане коло: \(R = \frac{a}{\sqrt{3}}\)</li>
+        <li>Вписане коло: \(r = \frac{a}{2\sqrt{3}}\)</li>
+        <li>Зв'язок: \(R = 2r\)</li>
+      </ul>
+    </div>
+    <div class="ref-card">
+      <div class="ref-icon">🔢</div>
+      <h4>Корисні корені</h4>
+      <ul class="ref-list">
+        <li>\(\sqrt{3} \approx 1{,}732\)</li>
+        <li>\(\sqrt{2} \approx 1{,}414\)</li>
+        <li>\(\frac{\sqrt{3}}{4} \approx 0{,}433\)</li>
+        <li>\(\frac{3\sqrt{3}}{2} \approx 2{,}598\)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<footer>
+  Стереометрія на НМТ · Розроблено для учнів 11 класу · 2026
+</footer>
+
+<script>
+// Tab switching
+function showTab(name) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  event.target.classList.add('active');
+  if (window.MathJax) MathJax.typesetPromise();
+}
+
+// Task toggle
+let openedTasks = new Set();
+function toggleTask(id) {
+  const card = document.getElementById(id);
+  card.classList.toggle('open');
+  if (card.classList.contains('open')) {
+    openedTasks.add(id);
+  } else {
+    openedTasks.delete(id);
+  }
+  updateProgress();
+  if (window.MathJax) MathJax.typesetPromise([card]);
+}
+function updateProgress() {
+  const total = 5;
+  document.getElementById('task-progress').style.width = (openedTasks.size / total * 100) + '%';
+}
+
+// Diagram switcher
+function showDiag(fig, mode) {
+  document.querySelectorAll(`[id^='pyr4-'], [id^='lbl-']`).forEach(el => {
+    el.style.opacity = '0.15';
+  });
+  const show = (ids) => ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.opacity = '1';
+  });
+  if (mode === 'all') {
+    document.querySelectorAll(`[id^='pyr4-'], [id^='lbl-']`).forEach(el => el.style.opacity = '');
+  } else if (mode === 'h') {
+    show(['pyr4-h', 'lbl-h']);
+  } else if (mode === 'a') {
+    show(['pyr4-a', 'lbl-a']);
+  } else if (mode === 'l') {
+    show(['pyr4-l1','pyr4-l2','pyr4-l3','pyr4-l4','lbl-l']);
+  }
+  document.querySelectorAll('.dsw-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+// Chapter switcher (placeholder)
+function showChapter(name) {
+  document.querySelectorAll('.nav-chapter').forEach(c => c.classList.remove('active'));
+  event.target.closest('.nav-chapter').classList.add('active');
+}
+
+// Initial MathJax render
+window.addEventListener('load', () => {
+  if (window.MathJax) MathJax.typesetPromise();
+});
+</script>
+</body>
+</html>
